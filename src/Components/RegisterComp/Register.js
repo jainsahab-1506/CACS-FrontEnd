@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
 import axios from "../utils/axios.js";
 import { requests } from "../utils/requests";
-import { useParams } from "react-router-dom";
 
 export default function Register() {
   const { id } = useParams();
@@ -15,29 +16,27 @@ export default function Register() {
 
   const profile = useSelector((state) => state.auth.userinfo);
   console.log(profile);
-  function HandleRegister() {
-    async function doRegister() {
-      //   dispatch(showLoader());
-      const request = await axios.post(requests["registerEvent"], {
+  const HandleRegister = async (event) => {
+    try {
+      const response = await axios.post(requests["registerEvent"], {
         eventid: id,
       });
-      //   console.log(request);
-      return request;
-    }
-    doRegister()
-      .then((res) => {
-        console.log(res.data);
-        alert("You have been Successfully Registered for the Event");
-        // dispatch(hideLoader());
+      console.log(response.data);
+
+      if (response.status === 200) {
+        if (response.data.error === "Already Registered") {
+          alert("You are already registered for the Event");
+        } else {
+          alert("You have been Successfully Registered for the Event");
+        }
         window.location.href = "/";
-      })
-      .catch((e) => {
-        alert("Something Went Wrong");
-        console.log(e);
-        // dispatch(hideLoader());
-        window.location.href = "/register";
-      });
-  }
+      } else throw new Error("Something went wrong.");
+    } catch (e) {
+      console.log(e);
+      alert("Something Went Wrong");
+      window.location.href = "/register";
+    }
+  };
   return (
     <div>
       <>
@@ -130,7 +129,7 @@ export default function Register() {
                   </div>
 
                   <button
-                    type="submit"
+                    type="button"
                     className="btn btn-primary btn-sm"
                     onClick={HandleRegister}
                   >
