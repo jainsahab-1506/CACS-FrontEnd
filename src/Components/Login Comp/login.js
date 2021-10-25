@@ -32,7 +32,7 @@ function Login() {
 
   function HandleSubmit(e) {
     const senddata = {
-      username: email,
+      email: email,
       password: password,
     };
     e.preventDefault();

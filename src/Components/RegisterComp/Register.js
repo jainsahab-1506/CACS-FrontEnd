@@ -105,26 +105,38 @@ export default function Register() {
                 <form className="my-4 px-5">
                   <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">
-                      Enter your name
+                      Enter your Email Id Here
                     </label>
                     <input
                       type="text"
                       className="form-control"
                       id="exampleInputEmail1"
-                      placeholder="Enter your name here"
-                      value={profile.name}
+                      placeholder="Enter your Email Id here"
+                      value={profile && profile.email}
                     />
                   </div>
                   <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">
-                      Enter your Username
+                      Enter your Name
                     </label>
                     <input
                       type="text"
                       className="form-control"
                       id="exampleInputEmail1"
                       placeholder="Enter your name here"
-                      value={profile.username}
+                      value={profile && profile.name}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="exampleInputEmail1" className="form-label">
+                      Enter your PhoneNo.
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="exampleInputEmail1"
+                      placeholder="Enter your PhoneNo. here"
+                      value={profile && profile.phone}
                     />
                   </div>
 

@@ -5,9 +5,19 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../utils/axios.js";
 import { requests } from "../utils/requests";
+import {
+  logOutSuccess,
+  signInSuccess,
+} from "../../store/modules/auth/auth.action";
+import { useSelector, useDispatch } from "react-redux";
 function Home() {
   const [events, setevent] = useState([]);
-
+  const dispatch = useDispatch();
+  const authToken = useSelector((state) => state.auth.token);
+  function HandleLogout() {
+    dispatch(logOutSuccess({}));
+    window.location.href = "/";
+  }
   function FetchEvents() {
     async function FetchEvent() {
       //   dispatch(showLoader());
@@ -73,9 +83,15 @@ function Home() {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/login">
-                      Login
-                    </Link>
+                    {authToken ? (
+                      <Link className="nav-link" onClick={HandleLogout}>
+                        Logout
+                      </Link>
+                    ) : (
+                      <Link className="nav-link" to="/login">
+                        Login
+                      </Link>
+                    )}
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" href="#">
