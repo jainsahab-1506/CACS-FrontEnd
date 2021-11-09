@@ -5,4 +5,5 @@ export const requests = {
   doLogin: "/users/login",
   fetchUpcoming: "/events/upcoming",
   registerEvent: "/events/register",
+  getEventInfo: "/events/id/"
 };

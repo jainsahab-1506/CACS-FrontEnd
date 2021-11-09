@@ -1,21 +1,41 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 
 import axios from "../utils/axios.js";
+import logo from "./logo.jpeg";
 import { requests } from "../utils/requests";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 export default function Register() {
+  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+
   const { id } = useParams();
+  const [event, setEvent] = useState(null);
   const authToken = useSelector((state) => state.auth.token);
-  useEffect(() => {
+  useEffect(async () => {
     if (!authToken) {
       window.location.href = "/login";
+    } else {
+      await getEvent();
     }
   }, []);
 
+  const getEvent = async () => {
+    try {
+      const response = await axios.get(requests.getEventInfo + id, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        }
+      });
+      setEvent(response.data.event);
+    }
+    catch(error) {
+      console.log(error);
+    }
+  };
+
   const profile = useSelector((state) => state.auth.userinfo);
-  console.log(profile);
   const HandleRegister = async (event) => {
     try {
       const response = await axios.post(requests["registerEvent"], {
@@ -44,7 +64,7 @@ export default function Register() {
           <div className="container">
             <a className="navbar-brand" href="#">
               <img
-                src="./logo.jpeg"
+                src={logo}
                 className="img-fluid rounded-circle"
                 alt
                 style={{ height: "6vh", width: "6vh" }}
@@ -73,18 +93,13 @@ export default function Register() {
             >
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="#">
+                  <a className="nav-link active" aria-current="page" href="/">
                     Home
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <a className="nav-link" href="/login">
                     Login
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Events
                   </a>
                 </li>
               </ul>
@@ -101,6 +116,19 @@ export default function Register() {
               >
                 Events are organised by societies under CACS, MNIT Jaipur
               </p>
+              {event && <><h6 className="text-center">{event.name}</h6>
+              <p
+                className="text-muted text-center"
+                style={{ fontSize: "0.8rem" }}
+              >
+                {event.description}
+                <br/>
+                {event.venue}
+                <br/>
+                {new Date(event.startDate).toLocaleString("en-US", options)}
+                <br/>
+                {new Date(event.endDate).toLocaleString("en-US", options)}
+              </p></>}
               <div className>
                 <form className="my-4 px-5">
                   <div className="mb-3">
@@ -159,21 +187,6 @@ export default function Register() {
                 <ul className="nav flex-column">
                   <li className="nav-item">
                     <span className="footer-title">CACS</span>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">
-                      About
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">
-                      About
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">
-                      About
-                    </a>
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" href="#">

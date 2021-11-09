@@ -1,15 +1,17 @@
-import React from "react";
-import { useEffect } from "react";
-import Event from "./../EventsComp/Event";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "../utils/axios.js";
-import { requests } from "../utils/requests";
 import {
   logOutSuccess,
   signInSuccess,
 } from "../../store/modules/auth/auth.action";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import Event from "./../EventsComp/Event";
+import { Link } from "react-router-dom";
+import React from "react";
+import axios from "../utils/axios.js";
+import { requests } from "../utils/requests";
+import { useEffect } from "react";
+import { useState } from "react";
+
 function Home() {
   const [events, setevent] = useState([]);
   const dispatch = useDispatch();
@@ -78,7 +80,7 @@ function Home() {
               >
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                   <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="#">
+                    <a className="nav-link active" aria-current="page" href="/">
                       Home
                     </a>
                   </li>
@@ -92,11 +94,6 @@ function Home() {
                         Login
                       </Link>
                     )}
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">
-                      Events
-                    </a>
                   </li>
                 </ul>
               </div>
@@ -141,21 +138,6 @@ function Home() {
                   <ul className="nav flex-column">
                     <li className="nav-item">
                       <span className="footer-title">CACS</span>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" href="#">
-                        About
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" href="#">
-                        About
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a className="nav-link" href="#">
-                        About
-                      </a>
                     </li>
                     <li className="nav-item">
                       <a className="nav-link" href="#">
