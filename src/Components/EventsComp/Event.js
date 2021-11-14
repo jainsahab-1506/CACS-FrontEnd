@@ -6,8 +6,8 @@ export default function Event({ event }) {
   var endDate = new Date(event.endDate);
 
   return (
-    <div>
-      <div className="col-md-3 col-lg-3 col-12">
+    <div className="col-md-4 col-lg-4 col-12">
+      <div className="">
         <div
           className="card"
           style={{ borderRadius: "11px !important", overflow: "hidden" }}

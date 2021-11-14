@@ -122,14 +122,24 @@ function Home() {
           </section>
           <section className="container my-4 ">
             <h4 className="py-4">Register some events under CACS</h4>
-            {events.length && (
+            <div class="row">
+              {events.length && (
+                <div className="row">
+                  {events.map((event, idx) => {
+                    return <Event event={event} />;
+                  })}
+                </div>
+              )}
+              {!events.length && <div></div>}
+            </div>
+            {/* {events.length && (
               <div>
                 {events.map((event, idx) => {
                   return <Event event={event} />;
                 })}
               </div>
             )}
-            {!events.length && <div></div>}
+            {!events.length && <div></div>} */}
           </section>
           <footer>
             <div className="container">
