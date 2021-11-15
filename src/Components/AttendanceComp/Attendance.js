@@ -22,6 +22,7 @@ export default function Register() {
   };
   const dispatch = useDispatch();
   const { id } = useParams();
+  const [status, setStatus] = useState(false);
   const [event, setEvent] = useState(null);
   const authToken = useSelector((state) => state.auth.token);
   useEffect(async () => {
@@ -39,7 +40,9 @@ export default function Register() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+
       setEvent(response.data.event);
+      setStatus(true);
     } catch (error) {
       console.log(error);
     }
@@ -49,28 +52,26 @@ export default function Register() {
     window.location.href = "/";
   }
   const profile = useSelector((state) => state.auth.userinfo);
-  const HandleRegister = async (event) => {
+  const HandleAttendance = async (event) => {
     try {
-      const response = await axios.post(requests["registerEvent"], {
-        eventid: id,
-      });
+      const response = await axios.put(requests["markattendance"] + id);
       console.log(response.data);
 
       if (response.status === 200) {
-        if (response.data.error === "Already Registered") {
-          alert("You are already registered for the Event");
+        if (response.data.error) {
+          alert(response.data.error);
         } else {
-          alert("You have been Successfully Registered for the Event");
+          alert(response.data.success);
         }
         window.location.href = "/";
       } else throw new Error("Something went wrong.");
     } catch (e) {
       console.log(e);
       alert("Something Went Wrong");
-      window.location.href = "/register";
+      window.location.href = "/";
     }
   };
-  return (
+  return status ? (
     <div>
       <>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -128,7 +129,7 @@ export default function Register() {
         <section className="container mt-4" style={{ minHeight: "70vh" }}>
           <div className="card my-5" style={{ border: "0 !important" }}>
             <div className="card-body">
-              <h4 className="text-center">Register for event</h4>
+              <h4 className="text-center">Mark Your Attendance Here</h4>
               <p
                 className="text-muted text-center"
                 style={{ fontSize: "0.8rem" }}
@@ -137,19 +138,7 @@ export default function Register() {
               </p>
               {event && (
                 <>
-                  <h6 className="text-center">{event.name}</h6>
-                  <p
-                    className="text-muted text-center"
-                    style={{ fontSize: "0.8rem" }}
-                  >
-                    {event.description}
-                    <br />
-                    {event.venue}
-                    <br />
-                    {new Date(event.startDate).toLocaleString("en-US", options)}
-                    <br />
-                    {new Date(event.endDate).toLocaleString("en-US", options)}
-                  </p>
+                  <h6 className="text-center">Event Name: {event.name}</h6>
                 </>
               )}
               <div className>
@@ -194,9 +183,9 @@ export default function Register() {
                   <button
                     type="button"
                     className="btn btn-primary btn-sm"
-                    onClick={HandleRegister}
+                    onClick={HandleAttendance}
                   >
-                    Register
+                    Mark Attendance
                   </button>
                 </form>
               </div>
@@ -284,5 +273,7 @@ export default function Register() {
         </footer>
       </>
     </div>
+  ) : (
+    <div>You are not Authorised</div>
   );
 }
