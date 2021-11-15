@@ -85,6 +85,15 @@ function Home() {
                     </a>
                   </li>
                   <li className="nav-item">
+                    <a
+                      className="nav-link active"
+                      aria-current="page"
+                      href="/adminlogin"
+                    >
+                      Admin
+                    </a>
+                  </li>
+                  <li className="nav-item">
                     {authToken ? (
                       <Link className="nav-link" onClick={HandleLogout}>
                         Logout
