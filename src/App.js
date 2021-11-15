@@ -1,11 +1,14 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from "./Components/Home Comp/home";
-import HandleLogin from "./Components/Login Comp/login";
-import Register from "./Components/RegisterComp/Register";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+
 import Attendance from "./Components/AttendanceComp/Attendance";
-import adminlogin from "./Components/Login Comp/Admin Login";
-import ViewAttendance from "./Components/AttendanceComp/ViewAttendance";
+import HandleLogin from "./Components/Login Comp/login";
+import Home from "./Components/Home Comp/home";
 import HomeAdmin from "./Components/AdminComp/HomeAdmin";
+import Register from "./Components/RegisterComp/Register";
+import RegisteredUsers from "./Components/RegisteredUsersComp/RegisteredUsers";
+import ViewAttendance from "./Components/AttendanceComp/ViewAttendance";
+import adminlogin from "./Components/Login Comp/Admin Login";
+
 function App() {
   return (
     <div className="App">
@@ -31,6 +34,11 @@ function App() {
                 exact
                 component={ViewAttendance}
               ></Route>
+              <Route
+                path="/registeredUsers/:id?"
+                exact
+                component={RegisteredUsers}
+              />
             </Switch>
           </Route>
         </Switch>

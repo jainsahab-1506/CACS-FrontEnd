@@ -9,4 +9,5 @@ export const requests = {
   markattendance: "/events/markattendance/",
   adminLogin: "/users/adminlogin",
   fetchEventsAdmin: "/events/all",
+  getEventById: "/events/",
 };
