@@ -23,7 +23,7 @@ export default function Register() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [status, setStatus] = useState(false);
-  const [event, setEvent] = useState(null);
+  const [event, setEvent] = useState({});
   const authToken = useSelector((state) => state.auth.token);
   useEffect(async () => {
     if (!authToken) {
@@ -38,10 +38,11 @@ export default function Register() {
       const response = await axios.get(requests.getEventInfo + id, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Type: "User",
         },
       });
-
-      setEvent(response.data.event);
+      console.log(response.data.eventdata);
+      setEvent(response.data.eventdata);
       setStatus(true);
     } catch (error) {
       console.log(error);
@@ -71,6 +72,7 @@ export default function Register() {
       window.location.href = "/";
     }
   };
+
   return status ? (
     <div>
       <>

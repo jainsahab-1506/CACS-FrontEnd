@@ -1,6 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
+import axios from "axios";
+import { requests } from "../utils/requests";
 import logo from "./logo.jpeg";
 function ViewAttendance() {
+  const data = localStorage.getItem("adminData");
+  const info = JSON.parse(data);
+  const { id } = useParams();
+  const [events, setevent] = useState({});
+  function FetchAttendance() {
+    console.log(id);
+    async function FetchEvent() {
+      //   dispatch(showLoader());
+      const request = await axios.get(
+        process.env.REACT_APP_SERVER_URL + requests["getEventById"] + id,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
+        }
+      );
+      return request;
+    }
+    FetchEvent()
+      .then((res) => {
+        const data = res.data.eventdata;
+        console.log(data);
+        setevent(data);
+      })
+      .catch((e) => {
+        // dispatch(hideLoader());
+        alert("Something Went Wrong");
+      });
+  }
+
+  useEffect(() => {
+    FetchAttendance();
+  }, []);
   return (
     <div>
       <div className="wrapper">
@@ -23,15 +59,12 @@ function ViewAttendance() {
             </a>
           </div>
           <ul className="list-unstyled">
-            <p>Hello User</p>
+            <p>{"Hello " + info.name}</p>
             <li>
-              <a href="#">About</a>
+              <a href="/adminhome">Events</a>
             </li>
             <li>
-              <a href="#">Portfolio</a>
-            </li>
-            <li>
-              <a href="#">Contact</a>
+              <a href="/adminlogin">Logout</a>
             </li>
           </ul>
         </nav>
@@ -62,7 +95,7 @@ function ViewAttendance() {
               >
                 <i className="fas fa-align-justify" />
               </button>
-              <h4>Attendance</h4>
+              <h4>{"Attendance for " + events.name} </h4>
             </div>
           </nav>
           <div className="table-responsive">
@@ -70,24 +103,23 @@ function ViewAttendance() {
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">First</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Handle</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
+                {events.attendedUsers &&
+                  events.attendedUsers.map((user, idx) => {
+                    return (
+                      <tr>
+                        <th scope="row">{idx + 1}</th>
+                        <td>{user.name}</td>
+                        <td>{user.email}</td>
+                        <td>{user.phone}</td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>

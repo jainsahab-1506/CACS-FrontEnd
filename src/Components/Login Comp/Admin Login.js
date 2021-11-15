@@ -11,11 +11,12 @@ import { useSelector } from "react-redux";
 
 function Login() {
   const authToken = localStorage.getItem("adminToken");
-  // useEffect(() => {
-  //   if (authToken) {
-  //     window.location.href = "/adminhome";
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (authToken) {
+      localStorage.removeItem("adminToken");
+      localStorage.removeItem("adminData");
+    }
+  }, []);
 
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");

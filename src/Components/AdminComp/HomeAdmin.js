@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { requests } from "../utils/requests";
 import $ from "jquery";
 import axios from "axios";
+import QRCode from "qrcode.react";
 export default function HomeAdmin() {
-  const data = localStorage.getItem("adminData");
-  const info = JSON.parse(data);
   const [events, setevent] = useState([]);
   function FetchEvents() {
     async function FetchEvent() {
@@ -30,7 +29,11 @@ export default function HomeAdmin() {
         window.location.href = "/adminlogin";
       });
   }
-
+  const dat = localStorage.getItem("adminData");
+  const info = JSON.parse(dat);
+  function HandleLogout() {
+    console.log("c");
+  }
   useEffect(() => {
     FetchEvents();
   }, []);
@@ -58,10 +61,10 @@ export default function HomeAdmin() {
         <ul className="list-unstyled">
           <p>{"Hello " + info.name} </p>
           <li>
-            <a href="#">Events</a>
+            <a href="/adminhome">Events</a>
           </li>
           <li>
-            <a href="#">Logout</a>
+            <a href="/adminlogin">Logout</a>
           </li>
         </ul>
       </nav>
@@ -103,6 +106,7 @@ export default function HomeAdmin() {
                 <th scope="col">Event Name</th>
                 <th scope="col">Attendance</th>
                 <th scope="col">Registered Users</th>
+                <th scope="col">QR Code for Attendance</th>
               </tr>
             </thead>
             <tbody>
@@ -126,6 +130,15 @@ export default function HomeAdmin() {
                       >
                         See
                       </a>
+                    </td>
+                    <td>
+                      <QRCode
+                        value={
+                          process.env.REACT_APP_SERVER_URL +
+                          "/markattendance/" +
+                          event._id
+                        }
+                      />
                     </td>
                   </tr>
                 );
