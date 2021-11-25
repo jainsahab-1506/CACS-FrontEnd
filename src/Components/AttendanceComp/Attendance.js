@@ -27,7 +27,7 @@ export default function Register() {
   const authToken = useSelector((state) => state.auth.token);
   useEffect(async () => {
     if (!authToken) {
-      window.location.href = "/login";
+      window.location.href = "/attendancelogin/" + id;
     } else {
       await getEvent();
     }
@@ -69,7 +69,7 @@ export default function Register() {
     } catch (e) {
       console.log(e);
       alert("Something Went Wrong");
-      window.location.href = "/";
+      window.location.href = "/markattendance/" + id;
     }
   };
 

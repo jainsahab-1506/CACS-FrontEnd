@@ -8,6 +8,7 @@ import Register from "./Components/RegisterComp/Register";
 import RegisteredUsers from "./Components/RegisteredUsersComp/RegisteredUsers";
 import ViewAttendance from "./Components/AttendanceComp/ViewAttendance";
 import adminlogin from "./Components/Login Comp/Admin Login";
+import AttendanceLogin from "./Components/Login Comp/Attendance Login";
 
 function App() {
   return (
@@ -28,6 +29,11 @@ function App() {
                 component={Attendance}
               ></Route>
               <Route path="/adminlogin" exact component={adminlogin}></Route>
+              <Route
+                path="/attendancelogin/:id"
+                exact
+                component={AttendanceLogin}
+              ></Route>
               <Route path="/adminhome" exact component={HomeAdmin}></Route>
               <Route
                 path="/showattendance/:id?"
