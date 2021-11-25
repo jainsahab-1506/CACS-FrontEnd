@@ -134,7 +134,7 @@ export default function HomeAdmin() {
                     <td>
                       <QRCode
                         value={
-                          process.env.REACT_APP_SERVER_URL +
+                          process.env.REACT_APP_SITE_URL +
                           "/markattendance/" +
                           event._id
                         }

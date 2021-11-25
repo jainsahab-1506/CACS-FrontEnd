@@ -1,40 +1,39 @@
 import React from "react";
-import  axios from "axios";
+import axios from "axios";
 import logo from "./logo.jpeg";
 import { requests } from "../utils/requests";
 import { useEffect } from "react";
 import { useParams } from "react-router";
 function RegisteredUsers() {
-    const id = useParams().id;
-    const admin = JSON.parse(localStorage.getItem("adminData"));
-    const [event, setEvent] = React.useState({});
+  const id = useParams().id;
+  const admin = JSON.parse(localStorage.getItem("adminData"));
+  const [event, setEvent] = React.useState({});
 
-    useEffect(() => {
-        console.log(id);
-        async function FetchEvent() {
-          //   dispatch(showLoader());
-          const request = await axios.get(
-            process.env.REACT_APP_SERVER_URL + requests["getEventById"] + id,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
-              },
-            }
-          );
-          return request;
+  useEffect(() => {
+    console.log(id);
+    async function FetchEvent() {
+      //   dispatch(showLoader());
+      const request = await axios.get(
+        process.env.REACT_APP_SERVER_URL + requests["getEventById"] + id,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("adminToken")}`,
+          },
         }
-        FetchEvent()
-          .then((res) => {
-            const data = res.data.eventData;
-            console.log(data);
-            setEvent(data);
-          })
-          .catch((e) => {
-            console.log(e);
-            alert("Something Went Wrong");
-          });
-      
-    }, [])
+      );
+      return request;
+    }
+    FetchEvent()
+      .then((res) => {
+        const data = res.data.eventdata;
+        console.log(data);
+        setEvent(data);
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("Something Went Wrong");
+      });
+  }, []);
 
   return (
     <div>
@@ -94,7 +93,9 @@ function RegisteredUsers() {
               >
                 <i className="fas fa-align-justify" />
               </button>
-              <h4>{event ? `Registrations for ${event.name}` : 'Registration'}</h4>
+              <h4>
+                {event ? `Registrations for ${event.name}` : "Registration"}
+              </h4>
             </div>
           </nav>
           <div className="table-responsive">
@@ -108,15 +109,15 @@ function RegisteredUsers() {
                 </tr>
               </thead>
               <tbody>
-                  {event.registeredUsers && event.registeredUsers.map((user, index) => (
-                        <tr key={user.id}>
-                        <th scope="row">{index + 1}</th>
-                        <td>{user.name}</td>
-                        <td>{user.phone}</td>
-                        <td>{user.email}</td>
-                      </tr>
-                    ))
-                  }                
+                {event.registeredUsers &&
+                  event.registeredUsers.map((user, index) => (
+                    <tr key={user.id}>
+                      <th scope="row">{index + 1}</th>
+                      <td>{user.name}</td>
+                      <td>{user.phone}</td>
+                      <td>{user.email}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
