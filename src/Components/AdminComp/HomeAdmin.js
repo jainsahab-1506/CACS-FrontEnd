@@ -104,9 +104,8 @@ export default function HomeAdmin() {
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Event Name</th>
-                <th scope="col">Attendance</th>
+
                 <th scope="col">Registered Users</th>
-                <th scope="col">QR Code for Attendance</th>
               </tr>
             </thead>
             <tbody>
@@ -115,14 +114,7 @@ export default function HomeAdmin() {
                   <tr>
                     <th scope="row">{idx + 1}</th>
                     <td>{event.name}</td>
-                    <td>
-                      <a
-                        style={{ color: "blue" }}
-                        href={"/showattendance/" + event._id}
-                      >
-                        View
-                      </a>
-                    </td>
+
                     <td>
                       <a
                         style={{ color: "blue" }}
@@ -130,15 +122,6 @@ export default function HomeAdmin() {
                       >
                         See
                       </a>
-                    </td>
-                    <td>
-                      <QRCode
-                        value={
-                          process.env.REACT_APP_SITE_URL +
-                          "/markattendance/" +
-                          event._id
-                        }
-                      />
                     </td>
                   </tr>
                 );

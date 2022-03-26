@@ -7,7 +7,7 @@ export const requests = {
   registerEvent: "/events/register",
   getEventInfo: "/events/",
   markattendance: "/events/markattendance/",
-  adminLogin: "/users/adminlogin",
+  adminLogin: "/adminlogin",
   fetchEventsAdmin: "/events/all",
   getEventById: "/events/",
 };

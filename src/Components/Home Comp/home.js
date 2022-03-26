@@ -16,10 +16,7 @@ function Home() {
   const [events, setevent] = useState([]);
   const dispatch = useDispatch();
   const authToken = useSelector((state) => state.auth.token);
-  function HandleLogout() {
-    dispatch(logOutSuccess({}));
-    window.location.href = "/";
-  }
+
   function FetchEvents() {
     async function FetchEvent() {
       //   dispatch(showLoader());
@@ -92,17 +89,6 @@ function Home() {
                     >
                       Admin
                     </a>
-                  </li>
-                  <li className="nav-item">
-                    {authToken ? (
-                      <Link className="nav-link" onClick={HandleLogout}>
-                        Logout
-                      </Link>
-                    ) : (
-                      <Link className="nav-link" to="/login">
-                        Login
-                      </Link>
-                    )}
                   </li>
                 </ul>
               </div>

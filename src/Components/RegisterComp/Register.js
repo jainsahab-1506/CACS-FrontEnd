@@ -22,38 +22,35 @@ export default function Register() {
   };
   const dispatch = useDispatch();
   const { id } = useParams();
-  const [event, setEvent] = useState(null);
-  const authToken = useSelector((state) => state.auth.token);
+  const [event, setEvent] = useState([]);
+  const [userdata, setData] = useState({
+    eventid: id,
+    id: "",
+    name: "",
+    email: "",
+    phone: "",
+    branch: "",
+  });
+
   useEffect(async () => {
-    if (!authToken) {
-      window.location.href = "/login";
-    } else {
-      await getEvent();
-    }
+    await getEvent();
   }, []);
 
   const getEvent = async () => {
     try {
-      const response = await axios.get(requests.getEventInfo + id, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      setEvent(response.data.event);
+      const response = await axios.get(requests.getEventInfo + id);
+      console.log(response.data);
+      setEvent(response.data.eventdata);
     } catch (error) {
       console.log(error);
     }
   };
-  function HandleLogout() {
-    dispatch(logOutSuccess({}));
-    window.location.href = "/";
-  }
-  const profile = useSelector((state) => state.auth.userinfo);
+  const handleChange = async (event) => {
+    setData({ ...userdata, [event.target.id]: event.target.value });
+  };
   const HandleRegister = async (event) => {
     try {
-      const response = await axios.post(requests["registerEvent"], {
-        eventid: id,
-      });
+      const response = await axios.post(requests["registerEvent"], userdata);
       console.log(response.data);
 
       if (response.status === 200) {
@@ -110,17 +107,6 @@ export default function Register() {
                     Home
                   </a>
                 </li>
-                <li className="nav-item">
-                  {authToken ? (
-                    <Link className="nav-link" onClick={HandleLogout}>
-                      Logout
-                    </Link>
-                  ) : (
-                    <Link className="nav-link" to="/login">
-                      Login
-                    </Link>
-                  )}
-                </li>
               </ul>
             </div>
           </div>
@@ -161,9 +147,23 @@ export default function Register() {
                     <input
                       type="text"
                       className="form-control"
-                      id="exampleInputEmail1"
+                      id="email"
                       placeholder="Enter your Email Id here"
-                      value={profile && profile.email}
+                      value={userdata.email}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="exampleInputEmail1" className="form-label">
+                      Enter your ID
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="id"
+                      placeholder="Enter your ID here"
+                      value={userdata.id}
+                      onChange={handleChange}
                     />
                   </div>
                   <div className="mb-3">
@@ -173,9 +173,23 @@ export default function Register() {
                     <input
                       type="text"
                       className="form-control"
-                      id="exampleInputEmail1"
+                      id="name"
                       placeholder="Enter your name here"
-                      value={profile && profile.name}
+                      value={userdata.name}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="exampleInputEmail1" className="form-label">
+                      Enter your Branch
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="branch"
+                      placeholder="Enter your Branch here"
+                      value={userdata.branch}
+                      onChange={handleChange}
                     />
                   </div>
                   <div className="mb-3">
@@ -185,9 +199,10 @@ export default function Register() {
                     <input
                       type="text"
                       className="form-control"
-                      id="exampleInputEmail1"
+                      id="phone"
                       placeholder="Enter your PhoneNo. here"
-                      value={profile && profile.phone}
+                      value={userdata.phone}
+                      onChange={handleChange}
                     />
                   </div>
 

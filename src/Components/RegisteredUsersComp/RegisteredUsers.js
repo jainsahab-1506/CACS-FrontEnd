@@ -4,13 +4,14 @@ import logo from "./logo.jpeg";
 import { requests } from "../utils/requests";
 import { useEffect } from "react";
 import { useParams } from "react-router";
+import TextField from "@mui/material/TextField";
 function RegisteredUsers() {
   const id = useParams().id;
   const admin = JSON.parse(localStorage.getItem("adminData"));
-  const [event, setEvent] = React.useState({});
+  const [event, setEvent] = React.useState([]);
 
   useEffect(() => {
-    console.log(id);
+    console.log("effect");
     async function FetchEvent() {
       //   dispatch(showLoader());
       const request = await axios.get(
@@ -25,7 +26,7 @@ function RegisteredUsers() {
     }
     FetchEvent()
       .then((res) => {
-        const data = res.data.eventdata;
+        const data = res.data.eventdata.registeredUsers;
         console.log(data);
         setEvent(data);
       })
@@ -34,7 +35,18 @@ function RegisteredUsers() {
         alert("Something Went Wrong");
       });
   }, []);
-
+  const updateRank = async (e, id) => {
+    for (var i = 0; i < event.length; i++) {
+      if (event[i].id === id) {
+        var tem = event;
+        tem[i].rank = e.target.value;
+        console.log(tem);
+        setEvent(tem);
+        console.log(event);
+        break;
+      }
+    }
+  };
   return (
     <div>
       <div className="wrapper">
@@ -106,16 +118,22 @@ function RegisteredUsers() {
                   <th scope="col">Name</th>
                   <th scope="col">Phone</th>
                   <th scope="col">Email</th>
+                  <th scope="col">Branch</th>
+                  <th scope="col">Rank</th>
                 </tr>
               </thead>
               <tbody>
-                {event.registeredUsers &&
-                  event.registeredUsers.map((user, index) => (
+                {event &&
+                  event.map((user, index) => (
                     <tr key={user.id}>
                       <th scope="row">{index + 1}</th>
                       <td>{user.name}</td>
                       <td>{user.phone}</td>
                       <td>{user.email}</td>
+                      <td>{user.branch}</td>
+                      <td>
+                        <TextField variant="filled" color="success" focused />
+                      </td>
                     </tr>
                   ))}
               </tbody>
